@@ -1,4 +1,4 @@
-package com.example.arcana.ui.theme
+package com.example.arcana.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

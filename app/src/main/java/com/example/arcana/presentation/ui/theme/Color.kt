@@ -1,4 +1,4 @@
-package com.example.arcana.ui.theme
+package com.example.arcana.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
