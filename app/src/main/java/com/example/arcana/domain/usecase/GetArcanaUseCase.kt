@@ -1,7 +1,10 @@
 package com.example.arcana.domain.usecase
 
-import com.example.arcana.domain.model.ArcanaDomainModel
+import com.example.arcana.domain.model.HeaderDomainModel
+import com.example.arcana.domain.model.LanguageDomainModel
 import com.example.arcana.domain.model.Resource
+import com.example.arcana.domain.model.SectionDomainModel
+import com.example.arcana.domain.model.SubheaderDomainModel
 import com.example.arcana.domain.repository.ArcanaRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -9,23 +12,19 @@ import javax.inject.Inject
 class GetArcanaUseCase @Inject constructor(
     private val repository: ArcanaRepository
 ) {
-    // Get languages
-    suspend fun getLanguages(): Flow<Resource<List<ArcanaDomainModel>>> {
+    suspend fun getLanguages(): Flow<Resource<List<LanguageDomainModel>>> {
         return repository.getLanguages()
     }
 
-    // Get sections for a specific language
-    suspend fun getSections(languageId: Int): Flow<Resource<List<ArcanaDomainModel>>> {
+    suspend fun getSections(languageId: Int): Flow<Resource<List<SectionDomainModel>>> {
         return repository.getSections(languageId)
     }
 
-    // Get headers for a specific section
-    suspend fun getHeaders(sectionId: Int): Flow<Resource<List<ArcanaDomainModel>>> {
+    suspend fun getHeaders(sectionId: Int): Flow<Resource<List<HeaderDomainModel>>> {
         return repository.getHeaders(sectionId)
     }
 
-    // Get subheaders for a specific header
-    suspend fun getSubheaders(headerId: Int): Flow<Resource<List<ArcanaDomainModel>>> {
+    suspend fun getSubheaders(headerId: Int): Flow<Resource<List<SubheaderDomainModel>>> {
         return repository.getSubheaders(headerId)
     }
 }

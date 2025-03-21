@@ -2,8 +2,8 @@ package com.example.arcana.di
 
 import com.example.arcana.data.api.ArcanaApi
 import com.example.arcana.data.datasource.ArcanaDataSource
-import com.example.arcana.data.repository.ArcanaRepository
-import com.example.arcana.domain.repository.ArcanaRepository as DomainArcanaRepository
+import com.example.arcana.data.repository.ArcanaRepository as ArcanaRepositoryImpl // Alias to avoid confusion
+import com.example.arcana.domain.repository.ArcanaRepository
 import com.example.arcana.domain.usecase.GetArcanaUseCase
 import dagger.Module
 import dagger.Provides
@@ -25,11 +25,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideArcanaRepository(dataSource: ArcanaDataSource): DomainArcanaRepository =
-        ArcanaRepository(dataSource)
+    fun provideArcanaRepository(dataSource: ArcanaDataSource): ArcanaRepository =
+        ArcanaRepositoryImpl(dataSource) // Use the concrete implementation
 
     @Provides
     @Singleton
-    fun provideGetArcanaUseCase(repository: DomainArcanaRepository): GetArcanaUseCase =
+    fun provideGetArcanaUseCase(repository: ArcanaRepository): GetArcanaUseCase =
         GetArcanaUseCase(repository)
 }

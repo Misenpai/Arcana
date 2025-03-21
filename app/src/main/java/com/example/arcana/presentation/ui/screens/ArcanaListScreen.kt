@@ -9,27 +9,23 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.arcana.R
-import com.example.arcana.domain.model.ArcanaDomainModel
 import com.example.arcana.domain.model.Resource
 import com.example.arcana.presentation.ui.components.ArcanaItem
 import com.example.arcana.presentation.ui.components.LoadingScreen
 import com.example.arcana.presentation.viewmodel.ArcanaViewModel
-import androidx.compose.runtime.getValue
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArcanaListScreen(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     viewModel: ArcanaViewModel = hiltViewModel()
 ) {
-    val languagesState by viewModel.languagesState.collectAsState()
+    val languagesState = viewModel.languagesState.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -38,16 +34,15 @@ fun ArcanaListScreen(
             )
         }
     ) { paddingValues ->
-        when (val state = languagesState) {
+        when (languagesState) {
             is Resource.Loading -> LoadingScreen()
             is Resource.Success -> {
                 LazyColumn(contentPadding = paddingValues) {
-                    items(state.data) { language ->
+                    items(languagesState.data) { language ->
                         ArcanaItem(
                             item = language,
                             onItemClick = {
-                                viewModel.fetchSections(language.id)
-                                navController.navigate("detail/${language.id}")
+                                navController.navigate("language_detail/${language.id}?title=${language.name}")
                             },
                             backgroundColor = when (language.name) {
                                 "Python" -> Color(0xFF4A90E2)
@@ -57,13 +52,13 @@ fun ArcanaListScreen(
                                 "Kotlin" -> Color(0xFF7F52FF)
                                 "Dart" -> Color(0xFF35C2C1)
                                 "Go" -> Color(0xFF00ADD8)
-                                else -> MaterialTheme.colorScheme.primaryContainer
+                                else -> Color.Gray
                             }
                         )
                     }
                 }
             }
-            is Resource.Error -> Text(text = "Error: ${state.exception.message}")
+            is Resource.Error -> Text(text = "Error: ${languagesState.exception.message}")
         }
     }
 }

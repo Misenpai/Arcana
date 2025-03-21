@@ -1,26 +1,28 @@
 package com.example.arcana.data.datasource
 
-
 import com.example.arcana.data.api.ArcanaApi
-import com.example.arcana.data.model.ArcanaItem
+import com.example.arcana.data.model.Header
+import com.example.arcana.data.model.Language
+import com.example.arcana.data.model.Section
+import com.example.arcana.data.model.Subheader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ArcanaDataSource @Inject constructor(private val api: ArcanaApi) {
-    suspend fun getLanguages(): List<ArcanaItem> = withContext(Dispatchers.IO) {
+    suspend fun getLanguages(): List<Language> = withContext(Dispatchers.IO) {
         api.getLanguages()
     }
 
-    suspend fun getSections(languageId: Int): List<ArcanaItem> = withContext(Dispatchers.IO) {
+    suspend fun getSections(languageId: Int): List<Section> = withContext(Dispatchers.IO) {
         api.getSections(languageId)
     }
 
-    suspend fun getHeaders(sectionId: Int): List<ArcanaItem> = withContext(Dispatchers.IO) {
+    suspend fun getHeaders(sectionId: Int): List<Header> = withContext(Dispatchers.IO) {
         api.getHeaders(sectionId)
     }
 
-    suspend fun getSubheaders(headerId: Int): List<ArcanaItem> = withContext(Dispatchers.IO) {
+    suspend fun getSubheaders(headerId: Int): List<Subheader> = withContext(Dispatchers.IO) {
         api.getSubheaders(headerId)
     }
 }
