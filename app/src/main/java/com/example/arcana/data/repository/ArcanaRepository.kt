@@ -5,11 +5,7 @@ import com.example.arcana.data.model.Header
 import com.example.arcana.data.model.Language
 import com.example.arcana.data.model.Section
 import com.example.arcana.data.model.Subheader
-import com.example.arcana.domain.model.HeaderDomainModel
-import com.example.arcana.domain.model.LanguageDomainModel
-import com.example.arcana.domain.model.Resource
-import com.example.arcana.domain.model.SectionDomainModel
-import com.example.arcana.domain.model.SubheaderDomainModel
+import com.example.arcana.domain.model.*
 import com.example.arcana.domain.repository.ArcanaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,13 +18,13 @@ class ArcanaRepository @Inject constructor(
 ) : ArcanaRepository {
 
     override suspend fun getLanguages(): Flow<Resource<List<LanguageDomainModel>>> = flow {
-        emit(Resource.Loading)
+        emit(Resource.Loading) // Resource<Nothing>, subtype of Resource<List<LanguageDomainModel>>
         try {
             val languages = dataSource.getLanguages()
             val domainModels = languages.map { it.toDomainModel() }
-            emit(Resource.Success(domainModels))
+            emit(Resource.Success(domainModels)) // Resource<List<LanguageDomainModel>>
         } catch (e: Exception) {
-            emit(Resource.Error(e))
+            emit(Resource.Error(e)) // Resource<Nothing>, subtype of Resource<List<LanguageDomainModel>>
         }
     }.flowOn(Dispatchers.IO)
 
@@ -54,34 +50,20 @@ class ArcanaRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getSubheaders(headerId: Int): Flow<Resource<List<SubheaderDomainModel>>> = flow {
-        emit(Resource.Loading)
-        try {
-            val subheaders = dataSource.getSubheaders(headerId)
-            val domainModels = subheaders.map { it.toDomainModel() }
-            emit(Resource.Success(domainModels))
-        } catch (e: Exception) {
-            emit(Resource.Error(e))
-        }
-    }.flowOn(Dispatchers.IO)
-
     private fun Language.toDomainModel() = LanguageDomainModel(
         id = id,
-        name = name,
-        description = description,
-        sections = sections?.map { it.toDomainModel() }
+        name = name
     )
 
     private fun Section.toDomainModel() = SectionDomainModel(
         id = id,
-        title = title,
-        headers = headers?.map { it.toDomainModel() }
+        title = title
     )
 
     private fun Header.toDomainModel() = HeaderDomainModel(
         id = id,
         title = title,
-        subheaders = subheaders?.map { it.toDomainModel() }
+        subheaders = subheaders.map { it.toDomainModel() }
     )
 
     private fun Subheader.toDomainModel() = SubheaderDomainModel(

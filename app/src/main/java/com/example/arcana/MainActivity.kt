@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.arcana.presentation.navigation.AppNavigation
+import com.example.arcana.presentation.ui.navigation.AppNavigation
 import com.example.arcana.presentation.ui.themes.ArcanaTheme
 import com.example.arcana.presentation.viewmodel.ArcanaViewModel
 import dagger.hilt.android.AndroidEntryPoint

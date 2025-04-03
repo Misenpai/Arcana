@@ -1,10 +1,6 @@
 package com.example.arcana.domain.usecase
 
-import com.example.arcana.domain.model.HeaderDomainModel
-import com.example.arcana.domain.model.LanguageDomainModel
-import com.example.arcana.domain.model.Resource
-import com.example.arcana.domain.model.SectionDomainModel
-import com.example.arcana.domain.model.SubheaderDomainModel
+import com.example.arcana.domain.model.*
 import com.example.arcana.domain.repository.ArcanaRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -22,9 +18,5 @@ class GetArcanaUseCase @Inject constructor(
 
     suspend fun getHeaders(sectionId: Int): Flow<Resource<List<HeaderDomainModel>>> {
         return repository.getHeaders(sectionId)
-    }
-
-    suspend fun getSubheaders(headerId: Int): Flow<Resource<List<SubheaderDomainModel>>> {
-        return repository.getSubheaders(headerId)
     }
 }

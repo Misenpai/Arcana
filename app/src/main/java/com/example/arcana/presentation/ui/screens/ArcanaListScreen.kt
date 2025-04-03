@@ -1,5 +1,6 @@
 package com.example.arcana.presentation.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,6 +43,7 @@ fun ArcanaListScreen(
                         ArcanaItem(
                             item = language,
                             onItemClick = {
+                                Log.d("ArcanaListScreen", "Navigating to language_detail with id: ${language.id}")
                                 navController.navigate("language_detail/${language.id}?title=${language.name}")
                             },
                             backgroundColor = when (language.name) {

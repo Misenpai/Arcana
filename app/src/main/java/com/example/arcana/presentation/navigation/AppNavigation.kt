@@ -1,4 +1,4 @@
-package com.example.arcana.presentation.navigation
+package com.example.arcana.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -11,19 +11,19 @@ import com.example.arcana.presentation.ui.screens.ArcanaListScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-    NavHost(navController, startDestination = "list") {
+    NavHost(navController = navController, startDestination = "list") {
         composable("list") {
             ArcanaListScreen(navController = navController)
         }
         composable(
-            "language_detail/{languageId}?title={title}",
+            route = "language_detail/{languageId}?title={title}",
             arguments = listOf(
                 navArgument("languageId") { type = NavType.IntType },
-                navArgument("title") { type = NavType.StringType; defaultValue = "Details" }
+                navArgument("title") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val languageId = backStackEntry.arguments?.getInt("languageId") ?: 0
-            val title = backStackEntry.arguments?.getString("title") ?: "Details"
+            val title = backStackEntry.arguments?.getString("title") ?: "Language"
             ArcanaDetailScreen(
                 type = "language",
                 itemId = languageId,
@@ -33,14 +33,14 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable(
-            "section_detail/{sectionId}?title={title}",
+            route = "section_detail/{sectionId}?title={title}",
             arguments = listOf(
                 navArgument("sectionId") { type = NavType.IntType },
-                navArgument("title") { type = NavType.StringType; defaultValue = "Details" }
+                navArgument("title") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val sectionId = backStackEntry.arguments?.getInt("sectionId") ?: 0
-            val title = backStackEntry.arguments?.getString("title") ?: "Details"
+            val title = backStackEntry.arguments?.getString("title") ?: "Section"
             ArcanaDetailScreen(
                 type = "section",
                 itemId = sectionId,
@@ -50,14 +50,14 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable(
-            "header_detail/{headerId}?title={title}",
+            route = "header_detail/{headerId}?title={title}",
             arguments = listOf(
                 navArgument("headerId") { type = NavType.IntType },
-                navArgument("title") { type = NavType.StringType; defaultValue = "Details" }
+                navArgument("title") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val headerId = backStackEntry.arguments?.getInt("headerId") ?: 0
-            val title = backStackEntry.arguments?.getString("title") ?: "Details"
+            val title = backStackEntry.arguments?.getString("title") ?: "Header"
             ArcanaDetailScreen(
                 type = "header",
                 itemId = headerId,

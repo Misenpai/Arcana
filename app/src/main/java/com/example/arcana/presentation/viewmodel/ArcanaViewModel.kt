@@ -1,5 +1,6 @@
 package com.example.arcana.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arcana.domain.model.*
@@ -30,14 +31,22 @@ class ArcanaViewModel @Inject constructor(
     private val _detailState = MutableStateFlow<DetailState>(DetailState.Loading)
     val detailState: StateFlow<DetailState> = _detailState.asStateFlow()
 
+    private val _headersState = MutableStateFlow<List<HeaderDomainModel>>(emptyList())
+    fun setErrorState(exception: Exception) {
+        _detailState.value = DetailState.Error(exception)
+    }
+
     init {
-        fetchLanguages() // Automatically fetch languages on initialization
+        fetchLanguages()
     }
 
     fun fetchLanguages() {
         viewModelScope.launch {
             getArcanaUseCase.getLanguages().collect { resource ->
                 _languagesState.value = resource
+                if (resource is Resource.Success) {
+                    Log.d("ArcanaViewModel", "Fetched ${resource.data.size} languages")
+                }
             }
         }
     }
@@ -59,22 +68,23 @@ class ArcanaViewModel @Inject constructor(
             getArcanaUseCase.getHeaders(sectionId).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> _detailState.value = DetailState.Loading
-                    is Resource.Success -> _detailState.value = DetailState.SectionDetail(resource.data)
+                    is Resource.Success -> {
+                        _headersState.value = resource.data
+                        _detailState.value = DetailState.SectionDetail(resource.data)
+                    }
                     is Resource.Error -> _detailState.value = DetailState.Error(resource.exception)
                 }
             }
         }
     }
 
-    fun fetchSubheaders(headerId: Int) {
-        viewModelScope.launch {
-            getArcanaUseCase.getSubheaders(headerId).collect { resource ->
-                when (resource) {
-                    is Resource.Loading -> _detailState.value = DetailState.Loading
-                    is Resource.Success -> _detailState.value = DetailState.HeaderDetail(resource.data)
-                    is Resource.Error -> _detailState.value = DetailState.Error(resource.exception)
-                }
-            }
+    fun selectHeader(headerId: Int) {
+        val header = _headersState.value.find { it.id == headerId }
+        if (header != null) {
+            _detailState.value = DetailState.HeaderDetail(header.subheaders)
+        } else {
+            _detailState.value = DetailState.Error(Exception("Header not found"))
         }
     }
+
 }

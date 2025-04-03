@@ -1,5 +1,6 @@
 package com.example.arcana.presentation.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,10 +32,17 @@ fun ArcanaDetailScreen(
     val detailState = viewModel.detailState.collectAsState()
 
     LaunchedEffect(type, itemId) {
-        when (type) {
-            "language" -> viewModel.fetchSections(itemId)
-            "section" -> viewModel.fetchHeaders(itemId)
-            "header" -> viewModel.fetchSubheaders(itemId)
+        Log.d("ArcanaDetailScreen", "Received $type with itemId: $itemId")
+        if (itemId == 0) {
+            Log.e("ArcanaDetailScreen", "Invalid itemId (0) for type: $type")
+            // Call the ViewModel function instead of setting the state directly
+            viewModel.setErrorState(Exception("Invalid $type ID"))
+        } else {
+            when (type) {
+                "language" -> viewModel.fetchSections(itemId)
+                "section" -> viewModel.fetchHeaders(itemId)
+                "header" -> viewModel.selectHeader(itemId)
+            }
         }
     }
 
@@ -43,6 +51,7 @@ fun ArcanaDetailScreen(
         when (val state = detailState.value) {
             is DetailState.Loading -> LoadingScreen()
             is DetailState.LanguageDetail -> {
+                Log.d("ArcanaDetailScreen", "Displaying ${state.sections.size} sections")
                 LazyColumn {
                     items(state.sections) { section ->
                         ArcanaItem(
@@ -55,6 +64,7 @@ fun ArcanaDetailScreen(
                 }
             }
             is DetailState.SectionDetail -> {
+                Log.d("ArcanaDetailScreen", "Displaying ${state.headers.size} headers")
                 LazyColumn {
                     items(state.headers) { header ->
                         ArcanaItem(
@@ -67,6 +77,7 @@ fun ArcanaDetailScreen(
                 }
             }
             is DetailState.HeaderDetail -> {
+                Log.d("ArcanaDetailScreen", "Displaying ${state.subheaders.size} subheaders")
                 LazyColumn {
                     items(state.subheaders) { subheader ->
                         SubheaderItem(
