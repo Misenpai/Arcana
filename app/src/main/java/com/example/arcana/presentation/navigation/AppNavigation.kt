@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.arcana.presentation.ui.screens.ArcanaDetailScreen
 import com.example.arcana.presentation.ui.screens.ArcanaListScreen
+import com.example.arcana.presentation.ui.screens.SettingsScreen // New import
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -65,6 +66,9 @@ fun AppNavigation(navController: NavHostController) {
                 navController = navController,
                 onBackClick = { navController.popBackStack() }
             )
+        }
+        composable("settings") {
+            SettingsScreen(navController = navController)
         }
     }
 }

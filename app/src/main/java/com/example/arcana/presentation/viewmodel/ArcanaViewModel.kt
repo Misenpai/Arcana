@@ -32,6 +32,9 @@ class ArcanaViewModel @Inject constructor(
     val detailState: StateFlow<DetailState> = _detailState.asStateFlow()
 
     private val _headersState = MutableStateFlow<List<HeaderDomainModel>>(emptyList())
+    private val _isDarkTheme = MutableStateFlow(false) // State for theme
+    val isDarkTheme: StateFlow<Boolean> = _isDarkTheme.asStateFlow()
+
     fun setErrorState(exception: Exception) {
         _detailState.value = DetailState.Error(exception)
     }
@@ -90,4 +93,8 @@ class ArcanaViewModel @Inject constructor(
         }
     }
 
+    fun toggleTheme() {
+        _isDarkTheme.value = !_isDarkTheme.value
+        Log.d("ArcanaViewModel", "Theme toggled to ${_isDarkTheme.value}")
+    }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,6 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.arcana.presentation.ui.navigation.AppNavigation
 import com.example.arcana.presentation.ui.themes.ArcanaTheme
+import com.example.arcana.presentation.ui.themes.ArcanaThemeWithViewModel
 import com.example.arcana.presentation.viewmodel.ArcanaViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,10 +21,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ArcanaTheme {
-                val navController = rememberNavController()
-                val viewModel: ArcanaViewModel = hiltViewModel()
-                // No need to call fetchLanguages here as it’s handled in ViewModel’s init
+            val navController = rememberNavController()
+            val viewModel: ArcanaViewModel = hiltViewModel()
+            ArcanaThemeWithViewModel(viewModel = viewModel) {
                 AppNavigation(navController = navController)
             }
         }
@@ -33,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
+    androidx.compose.material3.Text(
         text = "Hello $name!",
         modifier = modifier
     )
@@ -42,7 +41,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ArcanaTheme {
+    ArcanaTheme(darkTheme = false) {
         Greeting("Android")
     }
 }

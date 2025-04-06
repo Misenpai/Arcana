@@ -92,4 +92,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation (libs.logging.interceptor)
+
+    implementation (libs.androidx.material.v160)
+    implementation (libs.androidx.material.icons.extended)
 }
