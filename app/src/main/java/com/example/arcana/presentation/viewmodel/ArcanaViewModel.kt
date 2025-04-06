@@ -70,6 +70,7 @@ class ArcanaViewModel @Inject constructor(
                     is Resource.Loading -> _detailState.value = DetailState.Loading
                     is Resource.Success -> {
                         _headersState.value = resource.data
+                        Log.d("ArcanaViewModel", "Fetched headers: ${resource.data.size}, first header subheaders: ${resource.data.firstOrNull()?.subheaders?.size}")
                         _detailState.value = DetailState.SectionDetail(resource.data)
                     }
                     is Resource.Error -> _detailState.value = DetailState.Error(resource.exception)
@@ -81,8 +82,10 @@ class ArcanaViewModel @Inject constructor(
     fun selectHeader(headerId: Int) {
         val header = _headersState.value.find { it.id == headerId }
         if (header != null) {
+            Log.d("ArcanaViewModel", "Selected header: ${header.title}, subheaders: ${header.subheaders.size}")
             _detailState.value = DetailState.HeaderDetail(header.subheaders)
         } else {
+            Log.e("ArcanaViewModel", "Header not found for id: $headerId")
             _detailState.value = DetailState.Error(Exception("Header not found"))
         }
     }
