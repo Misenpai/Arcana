@@ -57,7 +57,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 @Composable
 fun ArcanaListScreen(
     navController: NavHostController,
-    viewModel: ArcanaViewModel = hiltViewModel()
+    viewModel: ArcanaViewModel
 ) {
     val languagesState = viewModel.languagesState.collectAsState().value
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -90,7 +90,7 @@ fun ArcanaListScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = stringResource(id = R.string.app_name),
+                            text = stringResource(id = R.string.app_name).uppercase(),
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
                             modifier = Modifier.align(Alignment.CenterVertically),
                             color = MaterialTheme.colorScheme.onSurface // Theme-aware color

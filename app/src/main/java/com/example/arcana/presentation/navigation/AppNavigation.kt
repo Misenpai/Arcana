@@ -8,13 +8,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.arcana.presentation.ui.screens.ArcanaDetailScreen
 import com.example.arcana.presentation.ui.screens.ArcanaListScreen
-import com.example.arcana.presentation.ui.screens.SettingsScreen // New import
+import com.example.arcana.presentation.ui.screens.SettingsScreen
+import com.example.arcana.presentation.viewmodel.ArcanaViewModel
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(
+    navController: NavHostController,
+    viewModel: ArcanaViewModel // Shared ViewModel parameter
+) {
     NavHost(navController = navController, startDestination = "list") {
         composable("list") {
-            ArcanaListScreen(navController = navController)
+            ArcanaListScreen(
+                navController = navController,
+                viewModel = viewModel // Pass shared ViewModel
+            )
         }
         composable(
             route = "language_detail/{languageId}?title={title}",
@@ -30,6 +37,7 @@ fun AppNavigation(navController: NavHostController) {
                 itemId = languageId,
                 title = title,
                 navController = navController,
+                viewModel = viewModel, // Pass shared ViewModel
                 onBackClick = { navController.popBackStack() }
             )
         }
@@ -47,6 +55,7 @@ fun AppNavigation(navController: NavHostController) {
                 itemId = sectionId,
                 title = title,
                 navController = navController,
+                viewModel = viewModel, // Pass shared ViewModel
                 onBackClick = { navController.popBackStack() }
             )
         }
@@ -64,11 +73,15 @@ fun AppNavigation(navController: NavHostController) {
                 itemId = headerId,
                 title = title,
                 navController = navController,
+                viewModel = viewModel, // Pass shared ViewModel
                 onBackClick = { navController.popBackStack() }
             )
         }
         composable("settings") {
-            SettingsScreen(navController = navController)
+            SettingsScreen(
+                navController = navController,
+                viewModel = viewModel // Pass shared ViewModel
+            )
         }
     }
 }

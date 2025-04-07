@@ -47,7 +47,7 @@ fun ArcanaDetailScreen(
     itemId: Int,
     title: String,
     navController: NavHostController,
-    viewModel: ArcanaViewModel = hiltViewModel(),
+    viewModel: ArcanaViewModel,
     onBackClick: () -> Unit
 ) {
     val detailState = viewModel.detailState.collectAsState()
@@ -72,7 +72,7 @@ fun ArcanaDetailScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = title,
+                        text = title.uppercase(),
                         fontFamily = FontFamily(Font(R.font.poppins_bold)),
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center,

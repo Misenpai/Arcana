@@ -1,5 +1,6 @@
 package com.example.arcana.presentation.viewmodel
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,8 +23,10 @@ sealed class DetailState {
 
 @HiltViewModel
 class ArcanaViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val getArcanaUseCase: GetArcanaUseCase
 ) : ViewModel() {
+
 
     private val _languagesState = MutableStateFlow<Resource<List<LanguageDomainModel>>>(Resource.Loading)
     val languagesState: StateFlow<Resource<List<LanguageDomainModel>>> = _languagesState.asStateFlow()
@@ -32,7 +35,9 @@ class ArcanaViewModel @Inject constructor(
     val detailState: StateFlow<DetailState> = _detailState.asStateFlow()
 
     private val _headersState = MutableStateFlow<List<HeaderDomainModel>>(emptyList())
-    private val _isDarkTheme = MutableStateFlow(false) // State for theme
+    private val _isDarkTheme = MutableStateFlow(
+        sharedPreferences.getBoolean("is_dark_theme", false)
+    )
     val isDarkTheme: StateFlow<Boolean> = _isDarkTheme.asStateFlow()
 
     fun setErrorState(exception: Exception) {
@@ -94,7 +99,8 @@ class ArcanaViewModel @Inject constructor(
     }
 
     fun toggleTheme() {
-        _isDarkTheme.value = !_isDarkTheme.value
-        Log.d("ArcanaViewModel", "Theme toggled to ${_isDarkTheme.value} at ${System.currentTimeMillis()}")
+        val newTheme = !_isDarkTheme.value
+        _isDarkTheme.value = newTheme
+        sharedPreferences.edit().putBoolean("is_dark_theme", newTheme).apply()
     }
 }

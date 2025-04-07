@@ -1,5 +1,7 @@
 package com.example.arcana.presentation.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -21,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,6 +31,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -44,10 +48,11 @@ import com.example.arcana.presentation.viewmodel.ArcanaViewModel
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
-    viewModel: ArcanaViewModel = hiltViewModel()
+    viewModel: ArcanaViewModel
 ) {
     val isDarkTheme by viewModel.isDarkTheme.collectAsState()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -56,7 +61,7 @@ fun SettingsScreen(
                     Text(
                         text = "Settings",
                         fontFamily = FontFamily(Font(R.font.poppins_bold)),
-                        color = Color.Black
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 },
                 navigationIcon = {
@@ -64,14 +69,14 @@ fun SettingsScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.Black
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White,
-                    navigationIconContentColor = Color.Black,
-                    titleContentColor = Color.Black
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         }
@@ -118,19 +123,26 @@ fun SettingsScreen(
             SettingsItem(
                 title = "Contribute",
                 value = "",
-                onClick = { /* Handle contribute click */ }
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Misenpai/Arcana/pulls"))
+                    context.startActivity(intent)
+                }
             )
 
             // Report an issue
             SettingsItem(
                 title = "Report an issue",
                 value = "",
-                onClick = { /* Handle report click */ }
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Misenpai/Arcana/issues"))
+                    context.startActivity(intent)
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             // Social Links
+// Social Links
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -138,19 +150,33 @@ fun SettingsScreen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // GitHub Icon
-                IconButton(onClick = { /* Handle GitHub click */ }) {
-                    // You would need to add GitHub icon resource
-                    // For now using placeholder text
-                    Text(text = "GH", modifier = Modifier.padding(8.dp))
-                }
+                // GitHub Icon - Using clickable instead of IconButton to remove circular background
+                Icon(
+                    painter = painterResource(id = R.drawable.github),
+                    contentDescription = "GitHub",
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Misenpai/Arcana"))
+                            context.startActivity(intent)
+                        }
+                        .padding(horizontal = 8.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
 
-                // Discord Icon
-                IconButton(onClick = { /* Handle Discord click */ }) {
-                    // You would need to add Discord icon resource
-                    // For now using placeholder text
-                    Text(text = "DC", modifier = Modifier.padding(8.dp))
-                }
+                // Instagram Icon - Using clickable instead of IconButton to remove circular background
+                Icon(
+                    painter = painterResource(id = R.drawable.instagram),
+                    contentDescription = "Instagram",
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/misenpai_/"))
+                            context.startActivity(intent)
+                        }
+                        .padding(horizontal = 8.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
             }
 
             // Version Info

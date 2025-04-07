@@ -57,7 +57,7 @@ fun SectionItem(
                     modifier = Modifier
                         .size(42.dp)
                         .padding(end = 8.dp),
-                    tint = Color.Unspecified // Preserve original color
+                    tint = MaterialTheme.colorScheme.onSurface // Preserve original color
                 )
                 Text(
                     text = section.title,
