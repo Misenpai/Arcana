@@ -24,9 +24,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.arcana.R
 import com.example.arcana.domain.model.HeaderDomainModel
 import com.example.arcana.domain.model.SubheaderDomainModel
 import com.example.arcana.presentation.ui.components.HeaderItem
@@ -69,9 +73,10 @@ fun ArcanaDetailScreen(
                 title = {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.headlineSmall,
+                        fontFamily = FontFamily(Font(R.font.poppins_bold)),
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface // Theme-aware color
                     )
                 },
                 navigationIcon = {
@@ -79,24 +84,27 @@ fun ArcanaDetailScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.onSurface // Theme-aware color
                         )
                     }
                 },
                 actions = {
-                    IconButton(onClick = { viewModel.toggleTheme() }) {
+                    IconButton(onClick = {
+                        viewModel.toggleTheme()
+                        Log.d("ThemeToggle", "IconButton clicked at ${System.currentTimeMillis()}")
+                    }) {
                         Icon(
                             imageVector = if (isDarkTheme) Icons.Default.LightMode else Icons.Default.DarkMode,
                             contentDescription = "Toggle Theme",
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.surface, // Theme-aware background
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         }

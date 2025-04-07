@@ -35,7 +35,7 @@ interface ArcanaApi {
             val retrofit = Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://172.17.0.1/api/")
+                .baseUrl("http://192.168.1.44/api/")
                 .build()
             return retrofit.create(ArcanaApi::class.java)
         }

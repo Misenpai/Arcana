@@ -95,6 +95,6 @@ class ArcanaViewModel @Inject constructor(
 
     fun toggleTheme() {
         _isDarkTheme.value = !_isDarkTheme.value
-        Log.d("ArcanaViewModel", "Theme toggled to ${_isDarkTheme.value}")
+        Log.d("ArcanaViewModel", "Theme toggled to ${_isDarkTheme.value} at ${System.currentTimeMillis()}")
     }
 }

@@ -34,7 +34,9 @@ fun SectionItem(
     onItemClick: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFCCCCCC)), // Grey background
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant // Theme-aware color
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
@@ -59,7 +61,9 @@ fun SectionItem(
                 )
                 Text(
                     text = section.title,
-                    style = MaterialTheme.typography.titleMedium.copy(color = Color.Black),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface // Theme-aware color
+                    ),
                     fontSize = 16.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_medium)),
                     fontWeight = FontWeight.Medium,
@@ -69,7 +73,7 @@ fun SectionItem(
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,
                 contentDescription = "Navigate to details",
-                tint = Color.Black
+                tint = MaterialTheme.colorScheme.onSurface // Theme-aware color
             )
         }
     }

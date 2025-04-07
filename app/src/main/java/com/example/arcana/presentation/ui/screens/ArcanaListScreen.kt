@@ -48,6 +48,8 @@ import com.example.arcana.presentation.viewmodel.ArcanaViewModel
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -89,7 +91,9 @@ fun ArcanaListScreen(
                     ) {
                         Text(
                             text = stringResource(id = R.string.app_name),
-                            modifier = Modifier.align(Alignment.CenterVertically)
+                            fontFamily = FontFamily(Font(R.font.poppins_bold)),
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            color = MaterialTheme.colorScheme.onSurface // Theme-aware color
                         )
                     }
                 },
@@ -98,7 +102,7 @@ fun ArcanaListScreen(
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = "Settings",
-                            tint = MaterialTheme.colorScheme.onPrimary // Ensures visibility
+                            tint = MaterialTheme.colorScheme.onSurface // Theme-aware color
                         )
                     }
                 },
@@ -107,15 +111,15 @@ fun ArcanaListScreen(
                         Icon(
                             imageVector = if (isDarkTheme) Icons.Default.LightMode else Icons.Default.DarkMode,
                             contentDescription = "Toggle Theme",
-                            tint = MaterialTheme.colorScheme.onPrimary // Ensures visibility
+                            tint = MaterialTheme.colorScheme.onSurface // Theme-aware color
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.surface, // Theme-aware background
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         }
@@ -164,10 +168,10 @@ fun ArcanaListScreen(
                                         "Python" -> Color(0xFF4A90E2)
                                         "Javascript" -> Color(0xFFF5A623)
                                         "Swift" -> Color(0xFFFA6400)
-                                        "Rust" -> Color(0xFFCE4A2F)
+                                        "Css" -> Color(0xFF2965F1)
                                         "Kotlin" -> Color(0xFF7F52FF)
-                                        "Dart" -> Color(0xFF35C2C1)
-                                        "Go" -> Color(0xFF00ADD8)
+                                        "Java" -> Color(0xFF5382A1)
+                                        "C++" -> Color(0xFF00599C)
                                         else -> Color.Gray
                                     }
                                 )
